@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Estude as escalas do trompete no ciclo de quintas: tonalidade, digitação, esteira no tempo e prática no instrumento com o microfone." />
+  <title>Trompeta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-nHzHuASE.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DOpUy0ht.css">
+</head>
+<body>
+  <div id="app-container">
+
+    <!-- ================= BARRA DO TOPO ================= -->
+    <!-- Mantém o id/classe `sidebar` por compatibilidade. Com uma página só,
+         ela leva apenas o nome, o instrumento e os ajustes. -->
+    <header id="sidebar" class="sidebar">
+      <div class="sidebar-logo" aria-label="Trompeta">trompeta</div>
+
+      <div class="hud-card">
+        <span class="hud-sub" id="hud-instrument">Trompete em Sib</span>
+        <span class="hud-visits" id="hud-visits" hidden
+              title="Navegadores diferentes que já abriram o site (cada navegador conta uma vez)"></span>
+        <button id="hud-settings-btn" class="hud-gear" type="button" title="Configurações" aria-label="Configurações">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h10M18 7h2M4 17h4M12 17h8" />
+            <circle cx="16" cy="7" r="2" />
+            <circle cx="10" cy="17" r="2" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Legenda de atalhos. Fica fora das telas e acima da camada dos pistões:
+         dentro de uma tela o z-index dela seria relativo àquele contexto de
+         empilhamento e ela ficaria atrás das válvulas. O texto de cada linha
+         muda conforme o modo (main.ts, `updateKeyhints`). -->
+    <div class="keyhint-bar" id="keyhint-bar">
+      <span><kbd id="kb-1">J</kbd><kbd id="kb-2">K</kbd><kbd id="kb-3">L</kbd> pistões</span>
+      <span id="kh-space"><kbd>Espaço</kbd> <em>nota solta</em></span>
+      <span id="kh-r"><kbd>R</kbd> pular</span>
+    </div>
+
+    <!-- ================= CAMADA DOS PISTÕES ================= -->
+    <!-- Acima das telas (z-index maior): as válvulas "emergem" na base e o
+         conteúdo passa por trás delas. -->
+    <div id="valve-container" class="valve-container" aria-hidden="true"></div>
+
+    <!-- ================= ESCALAS ================= -->
+    <!-- A página principal. À esquerda o ciclo de quintas escolhe o tom e
+         explica a tonalidade; à direita, quatro maneiras de estudar esse tom,
+         na ordem em que se aprende: conhecer, digitar, digitar no tempo e
+         tocar no instrumento. -->
+    <main id="scales-screen" class="page-screen study-screen active">
+      <div class="study">
+        <aside class="study-side" aria-label="Tonalidade">
+          <div id="circle-host" class="circle-host"></div>
+          <section id="key-info" class="key-info" aria-live="polite"></section>
+        </aside>
+
+        <section class="study-main">
+          <div class="study-tabs" role="tablist" aria-label="Maneira de estudar">
+            <button class="study-tab active" role="tab" data-mode="learn" type="button">Conhecer</button>
+            <button class="study-tab" role="tab" data-mode="fingering" type="button">Digitação</button>
+            <button class="study-tab" role="tab" data-mode="runner" type="button">Esteira</button>
+            <button class="study-tab" role="tab" data-mode="play" type="button">Tocar</button>
+            <button id="chart-open" class="chip-btn chart-open-btn" type="button" aria-haspopup="dialog">Quadro de dedilhados</button>
+          </div>
+          <p id="study-lede" class="study-lede"></p>
+
+          <div class="study-options">
+            <div class="seg-group" id="opt-order-group">
+              <span class="seg-label">Ordem</span>
+              <div class="segmented" id="opt-order">
+                <button class="seg-btn active" data-v="random" type="button">Aleatória</button>
+                <button class="seg-btn" data-v="pattern" type="button">Do padrão</button>
+              </div>
+            </div>
+
+            <div class="seg-group" id="opt-pattern-group">
+              <span class="seg-label">Padrão</span>
+              <div class="segmented" id="opt-pattern"></div>
+            </div>
+
+            <div class="seg-group" id="opt-octaves-group">
+              <span class="seg-label">Oitavas</span>
+              <div class="segmented" id="opt-octaves">
+                <button class="seg-btn active" data-v="1" type="button">1</button>
+                <button class="seg-btn" data-v="2" type="button">2</button>
+              </div>
+            </div>
+
+            <div class="seg-group" id="opt-pace-group">
+              <span class="seg-label">Andamento</span>
+              <div class="segmented" id="opt-pace">
+                <button class="seg-btn active" data-v="free" type="button">Livre</button>
+                <button class="seg-btn" data-v="tempo" type="button">Com metrônomo</button>
+              </div>
+            </div>
+
+            <label class="bpm-wrap" id="opt-bpm-wrap">
+              <input type="range" id="opt-bpm" min="30" max="180" step="2" value="72" aria-label="Andamento em BPM" />
+              <span id="opt-bpm-val" class="bpm-val">72 BPM</span>
+            </label>
+
+            <label class="chk-inline" id="opt-fing-wrap">
+              <input type="checkbox" id="opt-fing" checked />
+              mostrar digitação
+            </label>
+          </div>
+          <p id="opt-note" class="opt-note" hidden></p>
+
+          <!-- ---------------------------- CONHECER ---------------------------- -->
+          <div id="stage-learn" class="stage">
+            <div id="learn-staff" class="study-staff"></div>
+            <div class="stage-actions">
+              <button id="learn-listen" class="menu-btn" type="button">▶ Ouvir a escala</button>
+              <p class="stage-hint">Clique numa nota para ouvi-la. Aperte os pistões para ver quais notas da escala saem com essa digitação.</p>
+            </div>
+          </div>
+
+          <!-- ---------------------------- DIGITAÇÃO --------------------------- -->
+          <div id="stage-fingering" class="stage" hidden>
+            <div class="picker-row" id="octave-row">
+              <span class="picker-label" id="octave-label">Oitavas</span>
+              <div class="octave-list" id="octave-list" role="group" aria-labelledby="octave-label"></div>
+              <button id="octave-all" class="chip-btn" type="button">Todas as oitavas</button>
+            </div>
+
+            <div class="flashcard-layout">
+              <div class="flashcard-card">
+                <div id="flashcard-notation-wrapper" class="flashcard-notation-wrapper">
+                  <div class="quiz-hud-row">
+                    <div id="flashcard-score" class="flashcard-score">Sequência: 0</div>
+                  </div>
+                  <div id="staff-host" class="staff-host"></div>
+                  <div id="fingering-hint" class="fingering-hint hidden"></div>
+                </div>
+                <div id="flashcard-feedback" class="flashcard-feedback hidden"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ----------------------------- ESTEIRA ---------------------------- -->
+          <div id="stage-runner" class="stage" hidden>
+            <div class="stage-actions">
+              <button id="runner-play" class="menu-btn" type="button">▶ Começar</button>
+              <span id="runner-score" class="runner-score"></span>
+            </div>
+            <div id="runner-host" class="runner-host"></div>
+          </div>
+
+          <!-- ------------------------------ TOCAR ----------------------------- -->
+          <div id="stage-play" class="stage" hidden>
+            <div class="stage-actions">
+              <button id="play-start" class="menu-btn" type="button">▶ Começar a tocar</button>
+              <button id="play-listen" class="ghost-btn" type="button">Ouvir antes</button>
+              <span id="play-score" class="runner-score"></span>
+            </div>
+
+            <div class="tuner">
+              <div class="tuner-heard">
+                <span class="tuner-caption">Ouvindo</span>
+                <span id="play-heard" class="tuner-note">–</span>
+              </div>
+              <div id="play-meter" class="tuner-meter" style="--cents:0" aria-hidden="true">
+                <span class="tuner-scale"><i>♭</i><i>afinado</i><i>♯</i></span>
+                <span class="tuner-needle"></span>
+              </div>
+              <p id="play-status" class="tuner-status" aria-live="polite"></p>
+            </div>
+
+            <div id="play-staff" class="study-staff"></div>
+            <p class="stage-hint">O microfone só escuta enquanto a rodada está aberta; nada é gravado nem sai do navegador. Use fones se for ouvir a referência.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ================= QUADRO DE DEDILHADOS (PAINEL) ================= -->
+    <!-- Painel de consulta sobre a página de Escalas, não uma página: o quadro
+         é referência para o estudo, e abrir por cima mantém o tom e o modo
+         onde estavam. Ele termina acima dos pistões, que continuam visíveis e
+         clicáveis para acender as notas do quadro. -->
+    <div id="chart-backdrop" class="chart-backdrop hidden"></div>
+    <section id="chart-panel" class="chart-panel hidden" role="dialog" aria-labelledby="chart-title">
+      <div class="chart-panel-head">
+        <h2 id="chart-title" class="chart-panel-title">Quadro de dedilhados do trompete</h2>
+        <span id="chart-credit" class="page-credit"></span>
+        <div class="segmented" id="chart-spelling" role="group" aria-label="Grafia das notas alteradas">
+          <button class="seg-btn active" data-v="sharp" type="button">♯ Sustenidos</button>
+          <button class="seg-btn" data-v="flat" type="button">♭ Bemóis</button>
+        </div>
+        <button id="chart-close" class="hud-gear" type="button" aria-label="Fechar o quadro" title="Fechar (Esc)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <p class="chart-hint">
+        Segure <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> (ou clique nos pistões) para ver quais
+        notas saem com essa digitação, e <kbd>Espaço</kbd> para as notas
+        <b>soltas</b>, sem pistão nenhum. Clique numa nota para ouvi-la. As notas são as escritas;
+        o trompete em Si♭ soa um tom abaixo.
+      </p>
+      <nav class="fc-jump" aria-label="Registros">
+        <a href="#fc-low">Grave</a>
+        <a href="#fc-mid">Médio</a>
+        <a href="#fc-high">Agudo</a>
+        <a href="#fc-super">Superagudo</a>
+      </nav>
+      <!-- desenhado por chartPage.ts a partir de fingeringChart.ts -->
+      <div id="chart-host" class="fc-host"></div>
+    </section>
+
+    <!-- ================= PAINEL: CONFIGURAÇÕES ================= -->
+    <div id="settings-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <div class="overlay-card">
+        <h3 id="settings-title">Configurações</h3>
+
+        <div class="setting-row">
+          <label for="set-instrument">Instrumento</label>
+          <select id="set-instrument" class="select">
+            <option value="trumpet">Trompete em Sib</option>
+            <option value="mellophone">Melofone</option>
+            <option value="frenchhorn">Trompa (beta)</option>
+            <option value="marchinghorn">Trompa de marcha</option>
+            <option value="baritone">Barítono / Eufônio</option>
+            <option value="tuba">Tuba em Sib</option>
+          </select>
+        </div>
+
+        <div class="setting-row" id="row-fourth-valve">
+          <label for="set-fourth-valve">4º pistão</label>
+          <input type="checkbox" id="set-fourth-valve" class="switch" />
+        </div>
+
+        <div class="setting-row">
+          <label for="set-show-fingering">Dica de digitação nos flashcards</label>
+          <input type="checkbox" id="set-show-fingering" class="switch" />
+        </div>
+
+        <div class="setting-row">
+          <label for="set-note-sound">Som da nota</label>
+          <input type="checkbox" id="set-note-sound" class="switch" checked />
+        </div>
+
+        <div class="setting-row">
+          <label for="set-wrong-sound">Som de erro</label>
+          <input type="checkbox" id="set-wrong-sound" class="switch" checked />
+        </div>
+
+        <div class="setting-row">
+          <label for="set-on-wrong">Ao errar</label>
+          <div class="segmented" id="set-on-wrong">
+            <button class="seg-btn active" data-v="advance" type="button">Seguir</button>
+            <button class="seg-btn" data-v="retry" type="button">Repetir</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="set-theme">Tema escuro</label>
+          <input type="checkbox" id="set-theme" class="switch" />
+        </div>
+
+        <div class="overlay-actions">
+          <button id="settings-done" class="menu-btn" type="button">Pronto</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

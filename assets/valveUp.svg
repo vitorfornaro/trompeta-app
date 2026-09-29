@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 129.25 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fbd026;
+      }
+
+      .cls-2 {
+        fill: #fbd12c;
+      }
+
+      .cls-3 {
+        fill: #dcdbd8;
+      }
+
+      .cls-4 {
+        fill: #f4be03;
+      }
+
+      .cls-5 {
+        fill: #48a800;
+        mix-blend-mode: color-burn;
+        opacity: .5;
+      }
+
+      .cls-6, .cls-7, .cls-8 {
+        fill: none;
+      }
+
+      .cls-9 {
+        fill: #9c9f9e;
+      }
+
+      .cls-10 {
+        fill: #838582;
+      }
+
+      .cls-7 {
+        stroke: #eeecea;
+      }
+
+      .cls-7, .cls-8 {
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 6.34px;
+      }
+
+      .cls-8 {
+        stroke: #fde370;
+      }
+
+      .cls-11 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-12 {
+        isolation: isolate;
+      }
+
+      .cls-13 {
+        fill: #c1bfbb;
+      }
+
+      .cls-14 {
+        fill: #f4be04;
+      }
+
+      .cls-15 {
+        fill: #f2bc03;
+      }
+
+      .cls-16 {
+        fill: #f6c616;
+      }
+
+      .cls-17 {
+        fill: #e7ae03;
+      }
+
+      .cls-18 {
+        fill: #c0bfbb;
+      }
+
+      .cls-19 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <ellipse class="cls-6" cx="64.62" cy="132.65" rx="64.62" ry="34.21"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <path class="cls-6" d="M45.05,55.43v71.22c0,5.88,8.76,10.65,19.57,10.65s19.57-4.77,19.57-10.65V55.43h-39.14Z"/>
+    </clipPath>
+  </defs>
+  <g class="cls-12">
+    <g id="Layer_1" data-name="Layer 1">
+      <g>
+        <rect class="cls-14" x="6.38" y="143.89" width="116.49" height="368.11"/>
+        <rect class="cls-1" x="22.13" y="143.89" width="100.74" height="368.11"/>
+        <rect class="cls-4" x="45.15" y="143.89" width="77.72" height="368.11"/>
+        <rect class="cls-17" x="100.69" y="143.89" width="22.18" height="368.11"/>
+      </g>
+      <path class="cls-5" d="M122.87,162.6v65.17c-33.48-4.79-31.72-22.67-63.89-22.67s-52.6-17.29-52.6-30.27v-12.23h116.49Z"/>
+      <g>
+        <ellipse class="cls-15" cx="64.62" cy="155.14" rx="64.62" ry="34.21"/>
+        <rect class="cls-15" y="132.65" width="129.25" height="22.49"/>
+        <ellipse class="cls-2" cx="64.62" cy="132.65" rx="64.62" ry="34.21"/>
+        <g class="cls-19">
+          <ellipse class="cls-16" cx="75.62" cy="116.51" rx="53.22" ry="30.69"/>
+        </g>
+        <ellipse cx="64.62" cy="130.11" rx="50.37" ry="25.03"/>
+        <path class="cls-8" d="M10.77,145.18c4.8,5.58,12.68,10.25,23.25,12.63"/>
+      </g>
+      <g>
+        <path class="cls-9" d="M45.05,55.43v71.22c0,5.88,8.76,10.65,19.57,10.65s19.57-4.77,19.57-10.65V55.43h-39.14Z"/>
+        <g class="cls-11">
+          <path class="cls-10" d="M37.03,74.8c11.58,19.73,32.89,14.65,34.43,18.09,3.18,7.1,2.5,43.13,2.5,43.13l32.59-7.34,1.69-63.72-73.28-3.59,2.06,13.44Z"/>
+        </g>
+      </g>
+      <ellipse class="cls-18" cx="64.62" cy="47.94" rx="53.22" ry="30.69"/>
+      <rect class="cls-13" x="11.37" y="31.02" width="106.44" height="16.61"/>
+      <ellipse class="cls-3" cx="64.62" cy="30.69" rx="53.22" ry="30.69"/>
+      <path class="cls-7" d="M19.7,41.32c4.86,6.64,12.73,11.12,23.25,12.63"/>
+    </g>
+  </g>
+</svg>
